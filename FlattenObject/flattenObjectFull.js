@@ -1,3 +1,4 @@
+const _ = require('lodash');
 
 const obj = {
     a: 1,
@@ -18,6 +19,7 @@ const obj = {
 console.log(canonicalString(obj));
 
 function flattenObject(obj) {
+    obj = _.toPlainObject(obj);
     const res = [];
 
     go([], obj);
@@ -26,7 +28,7 @@ function flattenObject(obj) {
     function go(arr, obj) {
         Object.entries(obj).forEach(([key, value]) => {
             const newArr = [...arr, key];
-            if (isObject(value)) {
+            if (_.isObject(value)) {
                 go(newArr, value);
             } else {
                 res.push([...newArr, value]);
@@ -42,6 +44,3 @@ function canonicalString(obj) {
     return arrOfArrays.join('--');
 }
 
-function isObject(entity) {
-    return entity !== null && entity.constructor.name === 'Object';
-}
